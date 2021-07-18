@@ -10,12 +10,12 @@
         </div>
       </div>
     </header>
-    <div class="main-container">
-      <div class="main-wrap flex-center">
+    <main class="main-container">
+      <div class="main-wrap">
         <side-bar />
         <app-main></app-main>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 

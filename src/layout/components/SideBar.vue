@@ -59,8 +59,12 @@ export default {
 }
 
 .sidebar {
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
   width: 200px;
+  /* 80= navbar  80  */
   height: calc(100vh - 80px);
   background-color: #2d4054;
 
@@ -74,7 +78,7 @@ export default {
       line-height: 45px;
 
       &.active {
-        background-color: #f3f3f3;
+        background-color: #435466;
 
         .sidebar-link {
           color: #00b4cf;
@@ -98,7 +102,9 @@ export default {
       span {
         text-align: left;
         flex: 0 0 80px;
-        padding-top: 5px;
+        padding-top: 2px;
+        height: 100%;
+        box-sizing: border-box;
       }
     }
   }

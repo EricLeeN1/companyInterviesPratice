@@ -18,4 +18,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app-main {
+  /* 80= navbar  80  */
+  min-height: calc(100vh - 80px);
+  /* 200= sidebar  200  */
+  width: calc(100% - 200px);
+  padding: 20px 40px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-left: 200px;
+}
+</style>
