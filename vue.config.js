@@ -3,7 +3,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 module.exports = {
-  publicpath: '/',
+  publicPath: '/',
   assetsDir: 'static',
   configureWebpack: {
     resolve: {
