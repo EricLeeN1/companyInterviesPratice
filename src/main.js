@@ -3,8 +3,9 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 
-import 'normalize.css' // a modern alternative to CSS resets
+import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 import './assets/font icons/fonts.css';
+import './styles/index.scss';
 
 Vue.config.productionTip = false
 

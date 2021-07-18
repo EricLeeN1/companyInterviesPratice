@@ -78,7 +78,7 @@ export default {
       height: 40px;
     }
     position: absolute;
-    right: 0;
+    right: 50px;
     top: 50%;
     transform: translate(0, -50%);
   }

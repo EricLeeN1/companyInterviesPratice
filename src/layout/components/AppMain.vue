@@ -24,7 +24,7 @@ export default {
   min-height: calc(100vh - 80px);
   /* 200= sidebar  200  */
   width: calc(100% - 200px);
-  padding: 20px 40px;
+  padding: 20px 30px;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
