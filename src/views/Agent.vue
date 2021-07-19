@@ -36,7 +36,7 @@
       </div>
       <div class="tool-search flex-center">
         <i class="icon-search"></i>
-        <input type="text" />
+        <input v-model="keyword" @input="inputFind" type="text" />
       </div>
       <div class="tool-filter flex-center">
         <i
@@ -51,11 +51,15 @@
         </i>
       </div>
     </div>
-    <lists :lists="dataLists" :showType="showType"></lists>
+    <lists
+      :lists="resultsLists.length ? resultsLists : dataLists"
+      :showType="showType"
+    ></lists>
   </div>
 </template>
 
 <script>
+import lodash from "lodash";
 import lists from "@/components/lists";
 import { getLists } from "@/apis/index";
 export default {
@@ -66,8 +70,10 @@ export default {
   data() {
     return {
       activeType: "",
+      keyword: "",
       showType: "list",
       projectLists: [],
+      resultsLists: [],
       typeList: [
         {
           type: "card",
@@ -125,6 +131,30 @@ export default {
     this.getLists();
   },
   methods: {
+    inputFind: lodash.debounce(function() {
+      if (this.keyword) {
+        let resultsLists = this.searchKeyValues(
+          this.dataLists,
+          "name",
+          this.keyword
+        );
+        this.resultsLists = resultsLists;
+      } else {
+        this.resultsLists = [];
+      }
+    }, 500),
+    /**
+     * @param {Object} lists 所有数据
+     * @param {string} key 需要查询的数据的键值
+     * @param {string} value 需要查询的值
+     */
+    searchKeyValues(lists, key, value) {
+      let arrs = JSON.parse(JSON.stringify(lists));
+      let res = arrs.filter((item) => {
+        return item[key].includes(value);
+      });
+      return res;
+    },
     changeTabbar(item) {
       this.activeType = item.type;
     },

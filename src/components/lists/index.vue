@@ -21,7 +21,7 @@
           <span class="project-location">{{ item.location }}</span>
         </div>
         <div class="project-handler flex-center">
-          <div class="project-add">
+          <div class="project-add" @click="addResources(item)">
             <i class="icon-plus"></i>
           </div>
           <div class="project-sources flex-center" v-if="item.resources.length">
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="project-handler flex-center">
-          <div class="project-add">
+          <div class="project-add" @click="addResources(item)">
             <i class="icon-plus"></i>
           </div>
           <div class="project-sources flex-center">
@@ -82,6 +82,21 @@
         </div>
       </div>
     </div>
+
+    <tw-dialog
+      class="dialog"
+      :visible.sync="dialogVisible"
+      @close="closeDialog"
+    >
+      <div class="dialog-body">
+        <p>Separate multiple resource name with commas</p>
+        <input type="text" v-model="keyword" placeholder="Input Value" />
+      </div>
+      <div slot="footer" class="dialog-footer flex-center">
+        <div class="footer-add">Add Resources</div>
+        <div class="footer-cancel">Cancel</div>
+      </div>
+    </tw-dialog>
   </div>
 </template>
 
@@ -103,6 +118,9 @@ export default {
   },
   data() {
     return {
+      addResourcesDatas: "",
+      keyword: "",
+      dialogVisible: false,
       icon: {
         windows: require("@/assets/os icons/windows.png"),
         debian: require("@/assets/os icons/debin.png"),
@@ -113,18 +131,63 @@ export default {
     };
   },
   methods: {
-    filterColor: function(value) {
+    filterColor(value) {
       const map = {
         building: "#ff9a2a",
         idle: "#7fbc39",
       };
       return map[value];
     },
+    closeDialog() {
+      this.addResourcesDatas = '';
+      this.keyword = '';
+    },
+    addResources(item) {
+      this.addResourcesDatas = item;
+      this.dialogVisible = true;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.dialog-body {
+  margin-bottom: 10px;
+
+  p {
+    font-weight: bold;
+  }
+
+  input {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    outline: none;
+  }
+}
+.dialog-footer {
+  div {
+    color: #fff;
+    height: 30px;
+    width: 100px;
+    line-height: 30px;
+    text-align: center;
+
+    & + div {
+      margin-left: 20px;
+    }
+  }
+
+  .footer-add {
+    background-color: #00b4cf;
+  }
+  .footer-cancel {
+    background-color: #2d4054;
+  }
+}
+
 .project-lists {
   .project-items {
     height: 120px;
@@ -195,6 +258,7 @@ export default {
 
     .project-add,
     .project-deny {
+      cursor: pointer;
       height: 30px;
       line-height: 30px;
       font-size: 18px;
@@ -284,6 +348,7 @@ export default {
 
   .project-add,
   .project-deny {
+    cursor: pointer;
     margin-bottom: 10px;
     height: 30px;
     line-height: 30px;
