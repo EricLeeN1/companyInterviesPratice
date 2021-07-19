@@ -65,7 +65,7 @@ export default {
   bottom: 0;
   width: 200px;
   /* 80= navbar  80  */
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   background-color: #2d4054;
 
   .sidebar-lists {

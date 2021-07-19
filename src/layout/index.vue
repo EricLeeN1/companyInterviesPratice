@@ -49,7 +49,8 @@ export default {
   position: relative;
   z-index: 2;
   height: 80px;
-  box-shadow: 0 0 1px 3px #e1e1e1;
+  background-color: #f3f3f3;
+  box-shadow: 0 0 1px 3px #ccc;
 
   .nav-wrap {
     justify-content: center;

@@ -25,31 +25,57 @@
     <div class="tool-bar flex-center">
       <div class="tool-tabbar flex-center">
         <div
-          v-for="(item, index) in tabbarLists"
-          :key="index"
+          v-for="item in tabbarLists"
+          :key="item.name"
           @click="changeTabbar(item)"
+          class="tabbar-items"
+          :class="activeType === item.type ? 'active' : ''"
         >
           {{ item.name }}
         </div>
       </div>
-    </div>
-
-    <div class="project-lists">
-      <div v-for="item in projectLists" :key="item.id">
-        {{ item }}
+      <div class="tool-search flex-center">
+        <i class="icon-search"></i>
+        <input type="text" />
+      </div>
+      <div class="tool-filter flex-center">
+        <i
+          v-for="item in typeList"
+          :key="item.type"
+          :class="[
+            'icon-th-' + item.type,
+            showType === item.type ? 'active' : '',
+          ]"
+          @click="changeType(item)"
+        >
+        </i>
       </div>
     </div>
+    <lists :lists="dataLists" :showType="showType"></lists>
   </div>
 </template>
 
 <script>
+import lists from "@/components/lists";
 import { getLists } from "@/apis/index";
 export default {
   name: "Agent",
+  components: {
+    lists,
+  },
   data() {
     return {
-      activeIndex: 0,
+      activeType: "",
+      showType: "list",
       projectLists: [],
+      typeList: [
+        {
+          type: "card",
+        },
+        {
+          type: "list",
+        },
+      ],
       cardLists: [
         {
           name: "ALL",
@@ -67,22 +93,43 @@ export default {
       tabbarLists: [
         {
           name: "All",
+          type: "",
         },
         {
           name: "Physical",
+          type: "physical",
         },
         {
           name: "Virtual",
+          type: "virtual",
         },
       ],
     };
+  },
+  computed: {
+    dataLists() {
+      if (this.projectLists.length) {
+        return this.projectLists.filter((ele) => {
+          if (this.activeType) {
+            return ele.type === this.activeType;
+          } else {
+            return ele;
+          }
+        });
+      } else {
+        return [];
+      }
+    },
   },
   mounted() {
     this.getLists();
   },
   methods: {
-    changeTabbar(index) {
-      this.activeIndex = index;
+    changeTabbar(item) {
+      this.activeType = item.type;
+    },
+    changeType(item) {
+      this.showType = item.type;
     },
     getLists() {
       getLists()
@@ -99,6 +146,90 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tool-bar {
+  height: 50px;
+  background-color: #ffffff;
+
+  .tool-tabbar {
+    flex: 0 0 270px;
+
+    .tabbar-items {
+      flex: 0 0 90px;
+      text-align: center;
+      font-size: 16px;
+      position: relative;
+      height: 50px;
+      line-height: 50px;
+      cursor: pointer;
+
+      &::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        width: 1px;
+        background-color: #e1e1e1;
+      }
+
+      &.active {
+        color: #00b4cf;
+
+        &::before {
+          content: "";
+          position: absolute;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          height: 3px;
+          width: 100%;
+          background-color: #00b4cf;
+        }
+      }
+    }
+  }
+
+  .tool-search {
+    margin-left: 20px;
+    margin-right: auto;
+    position: relative;
+
+    input {
+      border: 1px solid #e1e1e1;
+      outline: none;
+      height: 26px;
+      line-height: 26px;
+      padding-left: 30px;
+    }
+
+    i {
+      font-size: 20px;
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+
+  .tool-filter {
+    margin-right: 20px;
+
+    i {
+      cursor: pointer;
+      font-size: 20px;
+
+      & + i {
+        margin-left: 15px;
+      }
+
+      &.active {
+        color: #00b4cf;
+      }
+    }
+  }
+}
+
 .card-lists {
   justify-content: space-between;
   margin-bottom: 20px;
