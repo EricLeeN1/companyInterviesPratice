@@ -21,7 +21,7 @@
           <span class="project-location">{{ item.location }}</span>
         </div>
         <div class="project-handler flex-center">
-          <div class="project-add" @click="addResources(item)">
+          <div class="project-add" @click="addResources(item, $event)">
             <i class="icon-plus"></i>
           </div>
           <div class="project-sources flex-center" v-if="item.resources.length">
@@ -85,6 +85,7 @@
 
     <tw-dialog
       class="dialog"
+      ref="dialog"
       :visible.sync="dialogVisible"
       @close="closeDialog"
     >
@@ -139,12 +140,13 @@ export default {
       return map[value];
     },
     closeDialog() {
-      this.addResourcesDatas = '';
-      this.keyword = '';
+      this.addResourcesDatas = "";
+      this.keyword = "";
     },
-    addResources(item) {
+    addResources(item,e) {
       this.addResourcesDatas = item;
       this.dialogVisible = true;
+      this.$refs.dialog.setStyle(e)
     },
   },
 };

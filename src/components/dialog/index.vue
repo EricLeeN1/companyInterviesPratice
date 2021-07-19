@@ -8,10 +8,7 @@
       <div
         class="tw-dialog-pane"
         ref="dialog"
-        :style="{
-          width: width + 'px',
-          top: top,
-        }"
+        :style="style"
       >
         <div class="tw-dialog-header">
           <slot name="title">
@@ -66,6 +63,7 @@ export default {
     return {
       closed: false,
       key: 0,
+      style: "",
     };
   },
   watch: {
@@ -85,6 +83,23 @@ export default {
     },
   },
   methods: {
+    setStyle(e) {
+      let rect  = '';
+      if(e.target.className === 'project-add'){
+        rect = e.target.getBoundingClientRect();
+      }else{
+        rect = e.target.parentNode.getBoundingClientRect();
+        // console.log(e.target.parentNode.className === 'project-add');
+      }
+      console.log(rect.left - (rect.width) / 2)
+      let location = {
+        // 鼠标在可视区域位置
+        left: rect.left - (rect.width) / 2 + "px" ,
+        top: rect.top + rect.height + "px",
+        width: this.width + "px",
+      };
+      this.style = location;
+    },
     handleWrapperClick() {
       if (!this.closeOnClickModal) return;
       this.handleClose();
@@ -128,7 +143,7 @@ export default {
 
   .tw-dialog-pane {
     border: 1px solid #00b4cf;
-    position: relative;
+    position: absolute;
     margin: 20px auto 50px;
     padding: 10px;
     background: #fff;
@@ -143,11 +158,11 @@ export default {
 
   .tw-dialog-arrow {
     position: absolute;
-    left: 20px;
+    left: 30px;
     top: -16px;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       display: block;
       z-index: 3;
@@ -158,8 +173,6 @@ export default {
       border-style: solid;
       top: 0;
       border-width: 16px 8px;
-      // outline: 1px solid #00b4cf;
-      filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03));
       margin-right: 3px;
       border-top-width: 0;
       border-bottom-color: #ffffff;
@@ -177,8 +190,6 @@ export default {
       border-style: solid;
       top: -2px;
       border-width: 18px 9px;
-      // outline: 1px solid #00b4cf;
-      filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03));
       margin-right: 3px;
       border-top-width: 0;
       border-bottom-color: #00b4cf;
@@ -194,6 +205,7 @@ export default {
     border: none;
     outline: none;
     cursor: pointer;
+    color: #00b4cf;
     font-size: 16px;
   }
 
